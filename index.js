@@ -105,24 +105,23 @@ const fetchAndLogProjects = async () => {
   }
 };
 
-// Serve API routes first, then static files
 const __dirname = path.resolve();
 
-// Middleware to serve static files from the React build folder in production
-if (process.env.NODE_ENV === "production") {
-  // Serve static files from the 'frontend/build' directory
-  app.use(express.static(path.join(__dirname, "frontend", "build")));
+// Serve static files from React's build folder if in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
   // Catch-all route to serve React's index.html for all non-API routes
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
   });
 } else {
-  // In development, you might want to proxy to React dev server (if needed)
-  app.get("/", (req, res) => {
-    res.send("Hello from Express!");
+  // Development route: Serve a simple message
+  app.get('/', (req, res) => {
+    res.send('Hello from Express!');
   });
 }
+
 
 // Example API route (you can add more of these as needed)
 app.get("/api/example", (req, res) => {
