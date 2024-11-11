@@ -116,9 +116,15 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
   });
 } else {
+<<<<<<< HEAD
   // Development route: Serve a simple message
   app.get('/', (req, res) => {
     res.send('Hello from Express!');
+=======
+  // In development, you might want to proxy to React dev server (if needed)
+  app.get("/", (req, res) => {
+    res.send("Hello from Express! Rayhan");
+>>>>>>> b0b053bbc0da135243c5a28833e673780d79006b
   });
 }
 
