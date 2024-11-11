@@ -109,25 +109,24 @@ const fetchAndLogProjects = async () => {
 const __dirname = path.resolve();
 
 // Middleware to serve static files from the React build folder in production
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   // Serve static files from the 'frontend/build' directory
-  app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+  app.use(express.static(path.join(__dirname, "frontend", "build")));
 
   // Catch-all route to serve React's index.html for all non-API routes
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
   });
 } else {
   // In development, you might want to proxy to React dev server (if needed)
-  // You can add a simple route like this for testing the backend server
-  app.get('/', (req, res) => {
-    res.send('Hello from Express!');
+  app.get("/", (req, res) => {
+    res.send("Hello from Express!");
   });
 }
 
 // Example API route (you can add more of these as needed)
-app.get('/api/example', (req, res) => {
-  res.json({ message: 'Hello from the API!' });
+app.get("/api/example", (req, res) => {
+  res.json({ message: "Hello from the API!" });
 });
 
 // Start the server
