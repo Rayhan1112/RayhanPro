@@ -83,7 +83,7 @@ export function Form() {
     
       // Check if response is OK (2xx status code)
       if (response.ok) {
-        toast.success('Form data saved to database!', {
+        toast.success("Thank you for reaching out! Your message has been successfully sent. I'll get back to you as soon as possible", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
       } else {
@@ -106,6 +106,7 @@ export function Form() {
     
     // Submit to Formspree
     handleSubmit(e)
+    
   }
 
   if (state.succeeded) {
