@@ -9,17 +9,18 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 function App() {
   return (
     <>
-      {/* <GlobalStyle></GlobalStyle>
+      <GlobalStyle></GlobalStyle>
       <Header></Header>
       <Main></Main>
-      <Footer></Footer> */}
-      <BrowserRouter>
+      <Footer></Footer>
+      {/* <BrowserRouter>
       <Routes>
         <Route path='/' element={<Header/>} />
         <Route path='/header' element={<Header/>} />
         <Route path='/main' element={<Main/>} />
+        <Route path='/foocdter' element={<Footer/>} />
       </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </>
   )
 }

@@ -89,7 +89,7 @@ app.get("/api/projects", async (req, res) => {
       console.log("No projects found");
     }
     res.json(projects); // Send the data as JSON to the frontend
-    console.log("Fetched Projects:", projects);
+    // console.log("Fetched Projects:", projects);
   } catch (err) {
     console.error("Error fetching:", err);
     res.status(500).json({ error: "Could not fetch projects" });
@@ -100,7 +100,7 @@ app.get("/api/projects", async (req, res) => {
 const fetchAndLogProjects = async () => {
   try {
     const projects = await Project.find(); // Fetch projects from MongoDB
-    console.log("Projects fetched:", projects); // Log fetched data to the console
+    // console.log("Projects fetched:", projects); // Log fetched data to the console
     console.log("Projects count:", projects.length);
   } catch (err) {
     console.error("Error fetching:", err); // Handle errors
@@ -124,9 +124,10 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.get('/',(req, res)=>{
-  res.send('Hello rayhan');
-});
+// app.get('/',(req, res)=>{
+//   res.send('Hello rayhan');
+// });
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
