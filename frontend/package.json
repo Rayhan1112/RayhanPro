@@ -22,7 +22,7 @@
     "react-animate-on-scroll": "^2.1.5",
     "react-dom": "^16.14.0",
     "react-google-recaptcha": "^2.1.0",
-    "react-router-dom": "^6.2.1",
+    "react-router-dom": "^6.28.0",
     "react-router-hash-link": "^2.4.3",
     "react-scripts": "^5.0.1",
     "react-toastify": "^8.1.0",

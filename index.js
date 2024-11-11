@@ -89,7 +89,6 @@ app.get("/api/projects", async (req, res) => {
       console.log("No projects found");
     }
     res.json(projects); // Send the data as JSON to the frontend
-    // console.log("Fetched Projects:", projects);
   } catch (err) {
     console.error("Error fetching:", err);
     res.status(500).json({ error: "Could not fetch projects" });
@@ -100,33 +99,36 @@ app.get("/api/projects", async (req, res) => {
 const fetchAndLogProjects = async () => {
   try {
     const projects = await Project.find(); // Fetch projects from MongoDB
-    // console.log("Projects fetched:", projects); // Log fetched data to the console
     console.log("Projects count:", projects.length);
   } catch (err) {
-    console.error("Error fetching:", err); // Handle errors
+    console.error("Error fetching:", err);
   }
 };
 
-// Deployment code
+// Serve API routes first, then static files
 const __dirname = path.resolve();
 
-// Serve API routes first, then static files
-app.use("/api", express.Router()); // Ensure /api routes are handled first
+// Middleware to serve static files from the React build folder in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the 'frontend/build' directory
+  app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
-// Only serve static files if the environment is production
-if (process.env.NODE_ENV === "production") {
-  // Static file handling after API routes
-  app.use(express.static(path.join(__dirname, "frontend", "build")));
-
-  // Catch-all route for any unmatched URLs to serve the static frontend
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+  // Catch-all route to serve React's index.html for all non-API routes
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+  });
+} else {
+  // In development, you might want to proxy to React dev server (if needed)
+  // You can add a simple route like this for testing the backend server
+  app.get('/', (req, res) => {
+    res.send('Hello from Express!');
   });
 }
 
-// app.get('/',(req, res)=>{
-//   res.send('Hello rayhan');
-// });
+// Example API route (you can add more of these as needed)
+app.get('/api/example', (req, res) => {
+  res.json({ message: 'Hello from the API!' });
+});
 
 // Start the server
 app.listen(PORT, () => {

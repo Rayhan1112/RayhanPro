@@ -1,28 +1,35 @@
-import React from 'react'
-// import { useEffect } from 'react'
-import { Footer } from './components/Footer/Footer'
-import { Header } from './components/Header/Header'
-import { Main } from './components/Main/Main'
-import { GlobalStyle } from './styles/global'
-import 'react-toastify/dist/ReactToastify.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Footer } from './components/Footer/Footer';
+import { Header } from './components/Header/Header';
+import { Main } from './components/Main/Main';
+import { GlobalStyle } from './styles/global';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+const Layout = () => {
+  return (
+    <div>
+      <GlobalStyle />
+      <Header />
+      <Main />
+      <Footer />
+    </div>
+  );
+};
+
 function App() {
   return (
-    <>
-      <GlobalStyle></GlobalStyle>
-      <Header></Header>
-      <Main></Main>
-      <Footer></Footer>
-      {/* <BrowserRouter>
+    <BrowserRouter> {/* Wrap with BrowserRouter for routing */}
       <Routes>
-        <Route path='/' element={<Header/>} />
-        <Route path='/header' element={<Header/>} />
-        <Route path='/main' element={<Main/>} />
-        <Route path='/foocdter' element={<Footer/>} />
+        {/* Define routes */}
+        <Route path="/" element={<Layout />}>
+          {/* Render different pages as child routes */}
+          
+        </Route>
       </Routes>
-      </BrowserRouter> */}
-    </>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
