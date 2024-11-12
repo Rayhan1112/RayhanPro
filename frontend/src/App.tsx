@@ -7,28 +7,14 @@ import { GlobalStyle } from './styles/global';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const Layout = () => {
+function App() {
   return (
-    <div>
-      <GlobalStyle />
+    <>
+    <GlobalStyle />
       <Header />
       <Main />
       <Footer />
-    </div>
-  );
-};
-
-function App() {
-  return (
-    <BrowserRouter> {/* Wrap with BrowserRouter for routing */}
-      <Routes>
-        {/* Define routes */}
-        <Route path="/" element={<Layout />}>
-          {/* Render different pages as child routes */}
-          
-        </Route>
-      </Routes>
-    </BrowserRouter>
+      </>
   );
 }
 

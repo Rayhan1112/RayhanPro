@@ -19,12 +19,9 @@ app.use(express.json());
 // MongoDB URI (use your local MongoDB URI or MongoDB Atlas URI)
 const mongoURI = process.env.MONGO_URI; // Change this if you're using a remote DB
 
-// Connect to MongoDB
+// Connect to MongoDB without deprecated options
 mongoose
-  .connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(mongoURI)
   .then(() => {
     console.log("MongoDB connected successfully");
     fetchAndLogProjects(); // Fetch and log projects after successful connection
@@ -42,41 +39,29 @@ const projectSchema = new mongoose.Schema({
 
 const Project = mongoose.model("Project", projectSchema);
 
-// Define a schema for the contact form submission
+// Define the Contact schema
 const contactSchema = new mongoose.Schema({
-  name: String,
+  firstName: String,
+  lastName: String,
   email: String,
   phone: String,
   message: String,
-  createdAt: { type: Date, default: Date.now },
-});
+}, { timestamps: true });
 
-const Contact = mongoose.model("Contact", contactSchema);
+// Create the Contact model
+const Contact = mongoose.model('Contact', contactSchema);
 
-// API route for form submission
-app.post("/api/contact", async (req, res) => {
-  const { name, email, phone, message } = req.body;
+// POST route to handle contact form submissions
+app.post('/contact', async (req, res) => {
+  const { firstName, lastName, email, phone, message } = req.body;
 
   try {
-    // Validate the input (example validation)
-    if (!name || !email || !phone || !message) {
-      return res.status(400).json({ error: "All fields are required." });
-    }
-
-    // Save form data to MongoDB
-    const newContact = new Contact({
-      name,
-      email,
-      phone,
-      message,
-    });
-
-    await newContact.save();
-
-    res.status(200).json({ message: "Form submitted and data saved to database!" });
-  } catch (error) {
-    console.error("Error saving form data:", error);
-    res.status(500).json({ error: "Could not save data. Please try again later." });
+    const newContact = new Contact({ firstName, lastName, email, phone, message });
+    await newContact.save(); // Save to MongoDB
+    res.json({ code: 200, message: 'Message sent successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ code: 500, message: 'Something went wrong, please try again later.' });
   }
 });
 
@@ -89,6 +74,7 @@ app.get("/api/projects", async (req, res) => {
       console.log("No projects found");
     }
     res.json(projects); // Send the data as JSON to the frontend
+    console.log("Fetched Projects:", projects);
   } catch (err) {
     console.error("Error fetching:", err);
     res.status(500).json({ error: "Could not fetch projects" });
@@ -99,40 +85,29 @@ app.get("/api/projects", async (req, res) => {
 const fetchAndLogProjects = async () => {
   try {
     const projects = await Project.find(); // Fetch projects from MongoDB
+    // console.log("Projects fetched:", projects); // Log fetched data to the console
     console.log("Projects count:", projects.length);
   } catch (err) {
-    console.error("Error fetching:", err);
+    console.error("Error fetching:", err); // Handle errors
   }
 };
 
+// Deployment code
 const __dirname = path.resolve();
 
-// Serve static files from React's build folder if in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+// Serve API routes first, then static files
+app.use("/api", express.Router()); // Ensure /api routes are handled first
 
-  // Catch-all route to serve React's index.html for all non-API routes
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
-  });
-} else {
-<<<<<<< HEAD
-  // Development route: Serve a simple message
-  app.get('/', (req, res) => {
-    res.send('Hello from Express!');
-=======
-  // In development, you might want to proxy to React dev server (if needed)
-  app.get("/", (req, res) => {
-    res.send("Hello from Express! Rayhan");
->>>>>>> b0b053bbc0da135243c5a28833e673780d79006b
+// Only serve static files if the environment is production
+if (process.env.NODE_ENV === "production") {
+  // Static file handling after API routes
+  app.use(express.static(path.join(__dirname, "frontend", "build")));
+
+  // Catch-all route for any unmatched URLs to serve the static frontend
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
   });
 }
-
-
-// Example API route (you can add more of these as needed)
-app.get("/api/example", (req, res) => {
-  res.json({ message: "Hello from the API!" });
-});
 
 // Start the server
 app.listen(PORT, () => {
