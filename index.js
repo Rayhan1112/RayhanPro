@@ -74,7 +74,7 @@ app.get("/api/projects", async (req, res) => {
       console.log("No projects found");
     }
     res.json(projects); // Send the data as JSON to the frontend
-    console.log("Fetched Projects:", projects);
+
   } catch (err) {
     console.error("Error fetching:", err);
     res.status(500).json({ error: "Could not fetch projects" });
@@ -107,7 +107,7 @@ if (process.env.NODE_ENV === "production") {
 } else {
   // Serve React app in development (catch-all route)
   app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+      res.sendFile(path.join(__dirname));
   });
 }
 
