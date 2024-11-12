@@ -91,23 +91,43 @@ const fetchAndLogProjects = async () => {
     console.error("Error fetching:", err); // Handle errors
   }
 };
-
-// Deployment code
 const __dirname = path.resolve();
 
-// Serve API routes first, then static files
-app.use("/api", express.Router()); // Ensure /api routes are handled first
-
-// Only serve static files if the environment is production
+// Serve React frontend in production
 if (process.env.NODE_ENV === "production") {
-  // Static file handling after API routes
-  app.use(express.static(path.join(__dirname, "frontend", "build")));
+  const dirPath = path.join(__dirname, 'frontend', 'build');
+  
+  // Serve static files from React frontend
+  app.use(express.static(dirPath)); 
 
-  // Catch-all route for any unmatched URLs to serve the static frontend
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+  // Catch-all route for serving the React app for non-API routes
+  app.get('*', (req, res) => {
+      res.sendFile(path.join(dirPath, 'index.html'));
+  });
+} else {
+  // Serve React app in development (catch-all route)
+  app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
   });
 }
+
+
+// // Deployment code
+// const __dirname = path.resolve();
+
+// // Serve API routes first, then static files
+// app.use("/api", express.Router()); // Ensure /api routes are handled first
+
+// // Only serve static files if the environment is production
+// if (process.env.NODE_ENV === "production") {
+//   // Static file handling after API routes
+//   app.use(express.static(path.join(__dirname, "frontend", "build")));
+
+//   // Catch-all route for any unmatched URLs to serve the static frontend
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+//   });
+// }
 
 // Start the server
 app.listen(PORT, () => {
