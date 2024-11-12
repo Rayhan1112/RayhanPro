@@ -1,14 +1,11 @@
 {
-  "name": "portfolio-backend",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
-    // "heroku-postbuild": "npm run build --prefix frontend"
-
   },
   "keywords": [],
   "author": "",

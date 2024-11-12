@@ -1,5 +1,5 @@
 {
-  "name": "portfolio",
+  "name":"frontend",
   "version": "0.1.0",
   "proxy": "http://localhost:5000",
   "private": true,
@@ -65,3 +65,5 @@
     "@types/validator": "^13.7.1"
   }
 }
+
+
